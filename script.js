@@ -826,8 +826,7 @@ function updateStaticTexts() {
 }
 
 // Language selection handler
-function setLanguage(lang) {
-  currentLang = lang;
+
   updateStaticTexts();
   // If in question stage, update current question
   if (!questionContainer.classList.contains('hidden')) {
@@ -842,7 +841,29 @@ function setLanguage(lang) {
 // Start the test
 function startTest() {
   // Reset state
-  currentQuestionIndex = 0;
+ // دالة تغيير اللغة
+function setLanguage(lang) {
+  currentLang = lang;
+  updateStaticTexts();
+  if (!questionContainer.classList.contains('hidden')) {
+    showQuestion();
+  }
+  if (!resultContainer.classList.contains('hidden')) {
+    showResult();
+  }
+} // ← هنا تنتهي setLanguage
+
+// دالة تبديل الثيم (الوضع الليلي والفاتح)
+let isDarkMode = false;
+const themeToggleBtn = document.getElementById('theme-toggle');
+
+function toggleTheme() {
+  isDarkMode = !isDarkMode;
+  document.body.classList.toggle('dark-mode', isDarkMode);
+  document.getElementById('app').classList.toggle('dark-mode', isDarkMode);
+  document.querySelectorAll('.option-button').forEach(btn => btn.classList.toggle('dark-mode', isDarkMode));
+  themeToggleBtn.textContent = isDarkMode ? '☀️' : '🌙';
+} currentQuestionIndex = 0;
   answers = [];
   // Hide result
   resultContainer.classList.add('hidden');
