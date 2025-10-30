@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Language selection -->
+        <div id="language-selection" class="language-selection">
+            <button id="lang-ar" class="lang-button" onclick="setLanguage('ar')">🇮🇶 العربية</button>
+            <button id="lang-en" class="lang-button" onclick="setLanguage('en')">🇬🇧 English</button>
+        </div>
+
+        <!-- Start screen -->
+        <div id="start-screen" class="screen">
+            <h1 id="start-title"></h1>
+            <p id="start-description"></p>
+            <button id="start-button" class="primary-button" onclick="startTest()"></button>
+        </div>
+
+        <!-- Question screen -->
+        <div id="question-container" class="screen hidden">
+            <div id="question-number"></div>
+            <p id="question-text" class="question-text"></p>
+            <div id="options" class="options"></div>
+            <button id="next-button" class="primary-button" onclick="nextQuestion()"></button>
+        </div>
+
+        <!-- Result screen -->
+        <div id="result-container" class="screen hidden">
+            <h2 id="result-title"></h2>
+            <p id="result-description" class="result-description"></p>
+            <button id="retry-button" class="primary-button" onclick="startTest()"></button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
