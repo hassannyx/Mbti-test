@@ -3,14 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>MBTI Personality Test – اكتشف نوع شخصيتك خلال دقيقتين</title>
-  <meta name="description" content="اختبار MBTI مجاني لتحديد نوع شخصيتك بدقة. أجب عن 25 سؤالًا بسيطًا لتتعرف على نفسك أكثر. MBTI Personality Test – Free 25-question quiz to discover your type." />
-
+  <meta name="description" content="اختبار MBTI مجاني بـ 35 سؤالًا وأربع خيارات لكل سؤال. اكتشف نوع شخصيتك بدقة مع دعم العربية والإنجليزية ووضع ليلي/فاتح." />
+  <meta name="theme-color" content="#0a66ff">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- زر الثيم مستقل في زاوية الصفحة -->
+  <!-- صورة صاحب الموقع أعلى اليمين -->
+  <div class="creator-photo-top" title="Made by Hassan Hadi">
+    <!-- غيّر اسم الملف حسب صورتك في المستودع -->
+    <img src="Hassan-nux.jpg" alt="Hassan Hadi">
+  </div>
+
+  <!-- زر الوضع الليلي مستقل -->
   <div id="theme-control" class="theme-control">
     <button id="theme-toggle" class="theme-button" aria-label="Toggle theme">🌙</button>
   </div>
@@ -42,8 +47,8 @@
     <!-- شاشة الأسئلة -->
     <section id="question-container" class="screen hidden">
       <div class="progress-wrap">
-        <div id="progress-label" class="progress-label">1 / 25</div>
-        <div class="progress-bar"><div id="progress-fill" class="progress-fill" style="width: 0%"></div></div>
+        <div id="progress-label" class="progress-label">1 / 35</div>
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill" style="width:0%"></div></div>
       </div>
 
       <div class="question-head">
@@ -51,6 +56,7 @@
       </div>
 
       <p id="question-text" class="question-text"></p>
+
       <div id="options" class="options"></div>
 
       <div class="actions">
@@ -83,6 +89,10 @@
 
   <footer class="site-footer">
     <small>© <span id="year"></span> MBTI Personality Test</small>
+    <div class="made-by">
+      <img src="Hassan-nux.jpg" alt="Hassan Hadi" class="creator-photo">
+      <span>صُنع بحُب بواسطة <strong>حسن هادي</strong></span>
+    </div>
   </footer>
 
   <script src="script.js"></script>
