@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MBTI Personality Test – اكتشف نوع شخصيتك خلال دقيقتين</title>
+  <meta name="description" content="اختبار MBTI مجاني بـ 35 سؤالًا وأربع خيارات لكل سؤال. اكتشف نوع شخصيتك بدقة مع دعم العربية والإنجليزية ووضع ليلي/فاتح." />
+  <meta name="theme-color" content="#0a66ff">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- زر الوضع الليلي مستقل -->
+  <div id="theme-control" class="theme-control">
+    <button id="theme-toggle" class="theme-button" aria-label="Toggle theme">🌙</button>
+  </div>
+
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo">🧩</span>
+      <div class="brand-text">
+        <h1 class="site-title">MBTI Personality Test</h1>
+        <p class="site-subtitle">اكتشف نوع شخصيتك خلال دقيقتين</p>
+      </div>
+    </div>
+
+    <!-- اختيار اللغة -->
+    <div id="language-selection" class="language-selection">
+      <button id="lang-ar" class="lang-button" onclick="setLanguage('ar')">🇮🇶 العربية</button>
+      <button id="lang-en" class="lang-button" onclick="setLanguage('en')">🇬🇧 English</button>
+    </div>
+  </header>
+
+  <main id="app" class="card">
+    <!-- شاشة البداية -->
+    <section id="start-screen" class="screen">
+      <h2 id="start-title"></h2>
+      <p id="start-description" class="muted"></p>
+      <button id="start-button" class="primary-button" onclick="startTest()"></button>
+    </section>
+
+    <!-- شاشة الأسئلة -->
+    <section id="question-container" class="screen hidden">
+      <div class="progress-wrap">
+        <div id="progress-label" class="progress-label">1 / 35</div>
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill" style="width:0%"></div></div>
+      </div>
+
+      <div class="question-head">
+        <div id="question-number" class="q-number"></div>
+      </div>
+
+      <p id="question-text" class="question-text"></p>
+
+      <div id="options" class="options"></div>
+
+      <div class="actions">
+        <button id="next-button" class="primary-button" onclick="nextQuestion()"></button>
+      </div>
+    </section>
+
+    <!-- شاشة تحميل قبل النتيجة -->
+    <section id="loading-screen" class="screen hidden">
+      <div class="loader"></div>
+      <p id="loading-text" class="muted">Processing your answers…</p>
+    </section>
+
+    <!-- شاشة النتيجة -->
+    <section id="result-container" class="screen hidden">
+      <h2 id="result-title"></h2>
+      <p id="result-subtitle" class="muted"></p>
+      <div id="result-description" class="result-description"></div>
+
+      <div class="share-row">
+        <a id="share-twitter" class="share-btn" target="_blank" rel="noopener">𝕏 / Twitter</a>
+        <a id="share-whatsapp" class="share-btn" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+
+      <div class="actions">
+        <button id="retry-button" class="secondary-button" onclick="startTest()"></button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>© <span id="year"></span> MBTI Personality Test</small>
+    <div class="made-by">
+      صُنع بواسطة <strong>حسن هادي</strong>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
