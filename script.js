@@ -1,183 +1,302 @@
-/***************
- * Translations
- ***************/
+/***********************
+ * Translations (UI)
+ ***********************/
 const translations = {
   en: {
     startTitle: "MBTI Personality Test",
-    startDescription: "Discover your personality type based on the Myers–Briggs Type Indicator. Answer 25 questions in about 2 minutes.",
+    startDescription: "Discover your MBTI type in ~2 minutes. 35 clear questions with four choices each.",
     startButton: "Start Test",
     nextButton: "Next",
     getResult: "Get Result",
     retryButton: "Restart",
     loading: "Analyzing your answers…",
     yourType: "Your Type:",
-    shareText: (type) => `I got ${type} on this MBTI test!`,
+    resultSubtitle: "Type overview and quick insights",
     questionCounter: (i,t)=>`Question ${i} of ${t}`,
     progressLabel: (i,t)=>`${i}/${t}`,
-    selectWarning: "Please select an option to continue.",
-    resultSubtitle: "Type overview and quick insights",
+    selectWarning: "Please choose an option to continue.",
+    shareText: (type)=>`I got ${type} on this MBTI test!`,
   },
   ar: {
     startTitle: "اختبار شخصية MBTI",
-    startDescription: "اكتشف نمط شخصيتك بناءً على مؤشر مايرز–بريغز. أجب عن 25 سؤالًا خلال دقيقتين تقريبًا.",
+    startDescription: "اكتشف نمط شخصيتك خلال ~دقيقتين. 35 سؤالًا واضحة وأربعة خيارات لكل سؤال.",
     startButton: "ابدأ الاختبار",
     nextButton: "التالي",
     getResult: "احصل على النتيجة",
     retryButton: "أعد الاختبار",
     loading: "جارٍ تحليل إجاباتك…",
     yourType: "نوعك:",
-    shareText: (type)=> `حصلت على النمط ${type} في هذا الاختبار!`,
+    resultSubtitle: "نبذة سريعة وتحليلات مختصرة",
     questionCounter: (i,t)=>`السؤال ${i} من ${t}`,
     progressLabel: (i,t)=>`${i}/${t}`,
     selectWarning: "يرجى اختيار إجابة للمتابعة.",
-    resultSubtitle: "نبذة سريعة وتحليلات مختصرة",
+    shareText: (type)=>`حصلت على النمط ${type} في هذا الاختبار!`
   }
 };
 
-/*********************************
- * Questions (25) – EI, NS, TF, JP
- *********************************/
+/******************************************
+ * 35 Questions – 4 choices (semantic, not Likert)
+ * Each maps to one pole of the dimension
+ ******************************************/
 const questions = [
-  // EI (6)
-  { dimension:"EI", text:{en:"At a social event, you usually:", ar:"في حدث اجتماعي، عادةً:"},
-    options:[{value:"E", text:{en:"Start conversations with many new people", ar:"تبدأ محادثات مع أشخاص جدد"}},
-             {value:"I", text:{en:"Stick to familiar faces or stay quiet", ar:"تبقى مع من تعرفه أو تلتزم الهدوء"}}]},
-  { dimension:"EI", text:{en:"You recharge your energy mostly by:", ar:"تستمد طاقتك غالبًا من:"},
-    options:[{value:"E", text:{en:"Being around people", ar:"وجودك مع الآخرين"}},
-             {value:"I", text:{en:"Spending time alone", ar:"قضاء الوقت بمفردك"}}]},
-  { dimension:"EI", text:{en:"When working on a project, you prefer:", ar:"عند العمل على مشروع، تفضل:"},
-    options:[{value:"E", text:{en:"Group collaboration", ar:"التعاون ضمن مجموعة"}},
-             {value:"I", text:{en:"Working independently", ar:"العمل بشكل فردي"}}]},
-  { dimension:"EI", text:{en:"You feel more comfortable:", ar:"تشعر براحة أكبر عندما:"},
-    options:[{value:"E", text:{en:"Speaking in front of a crowd", ar:"تتحدث أمام الناس"}},
-             {value:"I", text:{en:"Writing/one-on-one communication", ar:"تكتب أو تتواصل فرديًا"}}]},
-  { dimension:"EI", text:{en:"You tend to:", ar:"تميل إلى:"},
-    options:[{value:"E", text:{en:"Share ideas openly", ar:"مشاركة أفكارك علنًا"}},
-             {value:"I", text:{en:"Keep thoughts to yourself", ar:"الاحتفاظ بالأفكار لنفسك"}}]},
-  { dimension:"EI", text:{en:"On weekends, you prefer:", ar:"في عطلة نهاية الأسبوع، تفضل:"},
-    options:[{value:"E", text:{en:"Going out with friends", ar:"الخروج مع الأصدقاء"}},
-             {value:"I", text:{en:"Staying in with a book or movie", ar:"البقاء في المنزل"}}]},
-  // NS (6)
-  { dimension:"NS", text:{en:"When learning something new, you focus on:", ar:"عند تعلم شيء جديد، تركز على:"},
-    options:[{value:"S", text:{en:"Practical facts and details", ar:"الحقائق والتفاصيل العملية"}},
-             {value:"N", text:{en:"Concepts and patterns", ar:"الأفكار والأنماط"}}]},
-  { dimension:"NS", text:{en:"In discussions, you usually:", ar:"في النقاشات، عادة:"},
-    options:[{value:"S", text:{en:"Stick to tangible examples", ar:"تتمسك بالأمثلة الملموسة"}},
-             {value:"N", text:{en:"Explore hypothetical possibilities", ar:"تستكشف الاحتمالات الافتراضية"}}]},
-  { dimension:"NS", text:{en:"You prefer information that is:", ar:"تفضل المعلومات التي تكون:"},
-    options:[{value:"S", text:{en:"Concrete and specific", ar:"ملموسة ومحددة"}},
-             {value:"N", text:{en:"Abstract and theoretical", ar:"مجردة ونظرية"}}]},
-  { dimension:"NS", text:{en:"When solving problems, you:", ar:"عند حل المشكلات، أنت:"},
-    options:[{value:"S", text:{en:"Rely on past experience", ar:"تعتمد على الخبرة السابقة"}},
-             {value:"N", text:{en:"Imagine new approaches", ar:"تتخيل أساليب جديدة"}}]},
-  { dimension:"NS", text:{en:"You trust more:", ar:"تثق أكثر:"},
-    options:[{value:"S", text:{en:"Direct observations", ar:"بالملاحظات المباشرة"}},
-             {value:"N", text:{en:"Your intuition", ar:"بحدسك"}}]},
-  { dimension:"NS", text:{en:"You enjoy:", ar:"تستمتع بـ:"},
-    options:[{value:"S", text:{en:"Tried and true methods", ar:"الطرق المجربة"}},
-             {value:"N", text:{en:"Experimenting with ideas", ar:"التجريب بالأفكار"}}]},
-  // TF (6)
-  { dimension:"TF", text:{en:"In decision-making, you prioritize:", ar:"عند اتخاذ القرار تعطي الأولوية لـ:"},
-    options:[{value:"T", text:{en:"Logic and objective criteria", ar:"المنطق والمعايير الموضوعية"}},
-             {value:"F", text:{en:"Personal values and feelings", ar:"القيم والمشاعر"}}]},
-  { dimension:"TF", text:{en:"When giving feedback, you:", ar:"عند تقديم الملاحظات:"},
-    options:[{value:"T", text:{en:"Are honest even if blunt", ar:"تصارح حتى إن كانت قاسية"}},
-             {value:"F", text:{en:"Soften words to avoid hurt", ar:"تلطف الكلمات مراعاةً للمشاعر"}}]},
-  { dimension:"TF", text:{en:"You consider yourself more:", ar:"تعتبر نفسك أقرب إلى:"},
-    options:[{value:"T", text:{en:"Analytical and critical", ar:"تحليلي وناقد"}},
-             {value:"F", text:{en:"Empathetic and compassionate", ar:"متفهم ورحيم"}}]},
-  { dimension:"TF", text:{en:"In conflicts, you:", ar:"في الخلافات، أنت:"},
-    options:[{value:"T", text:{en:"Stick to principles", ar:"تلتزم بالمبادئ"}},
-             {value:"F", text:{en:"Seek harmony and compromise", ar:"تسعى للانسجام والتسوية"}}]},
-  { dimension:"TF", text:{en:"Prefer to be seen as:", ar:"تفضل أن يُنظر إليك كـ:"},
-    options:[{value:"T", text:{en:"Fair and just", ar:"عادل ومنصف"}},
-             {value:"F", text:{en:"Kind and caring", ar:"لطيف ومهتم"}}]},
-  { dimension:"TF", text:{en:"You value more:", ar:"تقدّر أكثر:"},
-    options:[{value:"T", text:{en:"Efficiency and results", ar:"الكفاءة والنتائج"}},
-             {value:"F", text:{en:"Relationships and cooperation", ar:"العلاقات والتعاون"}}]},
-  // JP (6) = 24 so far
-  { dimension:"JP", text:{en:"When scheduling tasks, you:", ar:"عند تنظيم المهام، أنت:"},
-    options:[{value:"J", text:{en:"Plan in detail and stick to it", ar:"تضع خطة مفصلة وتلتزم بها"}},
-             {value:"P", text:{en:"Keep it flexible and adapt", ar:"تحافظ على المرونة وتتأقلم"}}]},
-  { dimension:"JP", text:{en:"You prefer your environment:", ar:"تفضل أن يكون محيطك:"},
-    options:[{value:"J", text:{en:"Organized and orderly", ar:"منظم ومرتب"}},
-             {value:"P", text:{en:"Relaxed and spontaneous", ar:"مرن وعفوي"}}]},
-  { dimension:"JP", text:{en:"When traveling, you:", ar:"عند السفر، أنت:"},
-    options:[{value:"J", text:{en:"Plan itinerary ahead", ar:"تخطط للرحلة مسبقًا"}},
-             {value:"P", text:{en:"Decide on the go", ar:"تقرر أثناء السير"}}]},
-  { dimension:"JP", text:{en:"In meetings, you:", ar:"في الاجتماعات، أنت:"},
-    options:[{value:"J", text:{en:"Like clear agendas", ar:"تحب جداول أعمال واضحة"}},
-             {value:"P", text:{en:"Prefer open discussion", ar:"تفضل النقاش المفتوح"}}]},
-  { dimension:"JP", text:{en:"You feel more comfortable when:", ar:"تشعر براحة أكبر عندما:"},
-    options:[{value:"J", text:{en:"Decisions are finalized", ar:"تُحسم القرارات"}},
-             {value:"P", text:{en:"Options remain open", ar:"تبقى الخيارات مفتوحة"}}]},
-  { dimension:"JP", text:{en:"Your work style is:", ar:"أسلوب عملك:"},
-    options:[{value:"J", text:{en:"Structured & deadline-driven", ar:"منظم وملتزم بالمواعيد"}},
-             {value:"P", text:{en:"Flexible & free-flowing", ar:"مرن ومتدفق"}}]},
-  // Extra to reach 25 (EI)
-  { dimension:"EI", text:{en:"When sharing experiences, you:", ar:"عند مشاركة تجاربك، أنت:"},
-    options:[{value:"E", text:{en:"Speak spontaneously and openly", ar:"تتحدث بعفوية وانفتاح"}},
-             {value:"I", text:{en:"Think it through before sharing", ar:"تفكر قبل المشاركة"}}]},
+  /* EI (9) */
+  qEI("At a party, you tend to…",
+      ["Lead the fun and meet everyone","Chat with a few new people","Stay with your circle","Prefer a quiet corner"],
+      ["E","E","I","I"],
+      "في حفلة، تميل إلى…",
+      ["تقود الأجواء وتتعرف على الجميع","تتحدث مع بعض الوجوه الجديدة","تبقى مع مجموعتك","تفضّل زاوية هادئة"]),
+  qEI("Your weekend energy comes from…",
+      ["Group outings and events","Coffee with a friend","Solo hobbies","Time alone at home"],
+      ["E","E","I","I"],
+      "طاقة عطلتك تأتي من…",
+      ["خروجات ونشاطات جماعية","قهوة مع صديق","هوايات فردية","وقت هادئ في البيت"]),
+  qEI("In class or meetings, you…",
+      ["Speak up quickly","Share after some thought","Prefer to listen","Write ideas privately"],
+      ["E","E","I","I"],
+      "في الصف أو الاجتماعات أنت…",
+      ["تتحدث بسرعة","تشارك بعد قليل من التفكير","تفضّل الاستماع","تكتب أفكارك على انفراد"]),
+  qEI("When networking, you…",
+      ["Enjoy starting conversations","Greet many, chat briefly","Stick near one person","Avoid mingling"],
+      ["E","E","I","I"],
+      "عند التعارف أنت…",
+      ["تستمتع ببدء الحوارات","تسلّم على الكثير وتتحدث قليلًا","تلتصق بشخص واحد","تتجنب الاختلاط"]),
+  qEI("Your ideal workspace is…",
+      ["Open, lively, collaborative","Small team with buzz","Quiet shared room","Private space"],
+      ["E","E","I","I"],
+      "مساحة عملك المفضلة…",
+      ["مفتوحة ونابضة وتعاونية","فريق صغير مع حركة خفيفة","غرفة مشتركة هادئة","مساحة خاصة"]),
+  qEI("On social media, you…",
+      ["Post stories daily","Comment and engage often","Browse silently","Rarely open apps"],
+      ["E","E","I","I"],
+      "في وسائل التواصل…",
+      ["تنشر يوميًا","تعلّق وتتفاعل كثيرًا","تتصفح بصمت","نادراً ما تفتح التطبيقات"]),
+  qEI("Group projects feel…",
+      ["Exciting and motivating","Useful for ideas","Draining but okay","Hard; prefer solo"],
+      ["E","E","I","I"],
+      "المشاريع الجماعية تبدو…",
+      ["ممتعة ومحفِّزة","مفيدة للأفكار","مرهِقة لكن مقبولة","صعبة؛ تفضّل العمل الفردي"]),
+  qEI("Meeting new people is…",
+      ["Thrilling opportunity","Nice most times","A bit uncomfortable","Exhausting"],
+      ["E","E","I","I"],
+      "التعرّف على أشخاص جدد…",
+      ["فرصة مثيرة","جيد غالبًا","غير مريح قليلًا","مرهِق"]),
+  qEI("During breaks, you…",
+      ["Seek company","Join whoever is around","Take a quiet walk","Recharge alone"],
+      ["E","E","I","I"],
+      "أثناء الاستراحة أنت…",
+      ["تبحث عن الصحبة","تنضم لمن حولك","تتمشى بهدوء","تستعيد نشاطك وحدك"]),
+
+  /* NS (9) */
+  qNS("When learning, you prefer…",
+      ["Real-life examples","Clear step-by-step","Big-picture ideas","Abstract models"],
+      ["S","S","N","N"],
+      "عند التعلّم تفضّل…",
+      ["أمثلة واقعية","خطوات واضحة متتابعة","الصورة الكلية","نماذج نظرية"]),
+  qNS("When describing a place, you…",
+      ["Mention facts and details","List landmarks","Share the vibe","Paint possibilities"],
+      ["S","S","N","N"],
+      "عند وصف مكان…",
+      ["تذكر الحقائق والتفاصيل","تسرد المعالم","تنقل الإحساس العام","ترسم احتمالات"]),
+  qNS("You trust…",
+      ["What you can observe","Repeated experience","Gut patterns you sense","Future potentials"],
+      ["S","S","N","N"],
+      "تثق أكثر بـ…",
+      ["ما تراه وتلاحظه","خبرة متكررة","الأنماط التي تشعر بها","الاحتمالات المستقبلية"]),
+  qNS("In brainstorming, you…",
+      ["Ask for practical uses","Ground ideas in data","Stretch ideas wildly","Connect distant dots"],
+      ["S","S","N","N"],
+      "في العصف الذهني…",
+      ["تسأل عن الاستخدام العملي","تدعم الأفكار بالبيانات","تمدّ الأفكار بعيدًا","تربط نقاطًا بعيدة"]),
+  qNS("On instructions, you…",
+      ["Follow as written","Prefer checklists","Skim and adapt","Jump to concepts"],
+      ["S","S","N","N"],
+      "مع التعليمات…",
+      ["تتبعها حرفيًا","تفضّل قوائم خطوات","تطالع سريعًا وتعدّل","تنتقل مباشرةً للمفاهيم"]),
+  qNS("Your notes are…",
+      ["Detailed bullets","Dates & figures","Mind-maps","Keywords & arrows"],
+      ["S","S","N","N"],
+      "ملاحظاتك…",
+      ["نِقاط مفصلة","تواريخ وأرقام","خرائط ذهنية","كلمات مفتاحية وسِهام"]),
+  qNS("Planning a trip, you…",
+      ["List bookings","Fix timings exactly","Explore themes","Leave room for surprises"],
+      ["S","S","N","N"],
+      "عند التخطيط لرحلة…",
+      ["تحجز وتدوّن","تثبّت المواعيد بدقة","تستكشف فكرة الرحلة","تترك مساحة للمفاجآت"]),
+  qNS("When reading news, you…",
+      ["Look for verified facts","Compare multiple sources","Spot emerging trends","Predict implications"],
+      ["S","S","N","N"],
+      "عند قراءة الأخبار…",
+      ["تبحث عن حقائق مؤكدة","تقارن مصادر متعددة","ترصد اتجاهات صاعدة","تتنبأ بالتداعيات"]),
+  qNS("Your creativity tends to…",
+      ["Fix real problems","Improve existing things","Invent new concepts","Reimagine systems"],
+      ["S","S","N","N"],
+      "إبداعك يميل إلى…",
+      ["حلّ مشاكل ملموسة","تحسين الموجود","ابتكار مفاهيم جديدة","إعادة تصور الأنظمة"]),
+
+  /* TF (9) */
+  qTF("When deciding, you value…",
+      ["Objective fairness","Consistent criteria","Human impact","Harmony of relations"],
+      ["T","T","F","F"],
+      "عند اتخاذ القرار تقدّر…",
+      ["العدالة الموضوعية","معايير ثابتة","أثر القرار على الناس","انسجام العلاقات"]),
+  qTF("In feedback, you…",
+      ["State facts directly","Prioritize accuracy","Choose gentle phrasing","Protect feelings first"],
+      ["T","T","F","F"],
+      "في الملاحظات…",
+      ["تُصرّح بالوقائع مباشرة","تُقدّم الدقة أولًا","تختار عبارات لطيفة","تحمي المشاعر أولًا"]),
+  qTF("Conflict approach…",
+      ["Clarify the issue","Fix the broken rule","Seek middle ground","Restore trust"],
+      ["T","T","F","F"],
+      "التعامل مع الخلاف…",
+      ["توضّح المشكلة","تصحّح القاعدة المكسورة","تبحث عن حل وسط","تُعيد الثقة"]),
+  qTF("You prefer to be seen as…",
+      ["Rational","Firm but fair","Compassionate","Supportive"],
+      ["T","T","F","F"],
+      "تفضّل أن يُنظر إليك كـ…",
+      ["عقلاني","حازم وعادل","رحيم","داعم"]),
+  qTF("At work, you focus on…",
+      ["Efficiency metrics","Logic of the plan","Team morale","People’s needs"],
+      ["T","T","F","F"],
+      "في العمل تركّز على…",
+      ["مقاييس الكفاءة","منطق الخطة","معنويات الفريق","احتياجات الأفراد"]),
+  qTF("When giving advice, you…",
+      ["Analyze options","Compare pros/cons","Consider feelings","Encourage gently"],
+      ["T","T","F","F"],
+      "عند تقديم نصيحة…",
+      ["تحلّل الخيارات","تقارن المزايا والعيوب","تراعي المشاعر","تشجع بلطف"]),
+  qTF("Your compliments are…",
+      ["Specific to results","Skill-focused","Warm & appreciative","Character-focused"],
+      ["T","T","F","F"],
+      "إطراؤك يكون…",
+      ["محددًا للنتائج","يركز على المهارة","دافئًا وتقديريًا","يركز على الشخصية"]),
+  qTF("When rules clash with needs…",
+      ["Keep rules","Adjust carefully","Bend for people","Choose empathy"],
+      ["T","T","F","F"],
+      "عندما تتعارض القواعد مع الاحتياجات…",
+      ["تحافظ على القواعد","تعدّل بحذر","تليّن لأجل الناس","تختار التعاطف"]),
+  qTF("Your debate style…",
+      ["Evidence-driven","Structured logic","Listening & bridging","Finding shared values"],
+      ["T","T","F","F"],
+      "أسلوبك في النقاش…",
+      ["مدعوم بالأدلة","منطق مُنظّم","استماع وبناء جسور","البحث عن قيَم مشتركة"]),
+
+  /* JP (8) */
+  qJP("Planning your day…",
+      ["Schedule and stick","Make to-do lists","Keep it open","Decide as you go"],
+      ["J","J","P","P"],
+      "تخطيط يومك…",
+      ["جدول صارم","قوائم مهام","مرن ومفتوح","تقرّر أثناء اليوم"]),
+  qJP("Your desk is usually…",
+      ["Organized","Sorted weekly","Creative mess","Shifts often"],
+      ["J","J","P","P"],
+      "مكتبك عادة…",
+      ["منظم","يُرتب أسبوعيًا","فوضى إبداعية","يتغير كثيرًا"]),
+  qJP("Deadlines are…",
+      ["Sacred commitments","Targets to meet","Guidelines","Can move if needed"],
+      ["J","J","P","P"],
+      "المواعيد النهائية…",
+      ["التزامات مقدّسة","أهداف لا بد من تحقيقها","إرشادات عامة","يمكن تعديلها إذا لزم"]),
+  qJP("Packing for a trip…",
+      ["Checklist done early","Packed the night before","Throw essentials","Pack on the way"],
+      ["J","J","P","P"],
+      "تحضير حقيبة السفر…",
+      ["قائمة مكتملة مبكرًا","تُجهّز ليلة السفر","ترمي الأساسيات","تحضّر في الطريق"]),
+  qJP("When plans change…",
+      ["Prefer to resist","Adapt with a plan","Roll with it","Enjoy spontaneity"],
+      ["J","J","P","P"],
+      "عند تغيّر الخطة…",
+      ["تفضّل المقاومة","تتأقلم بخطة بديلة","تمضي مع التغيير","تستمتع بالعفوية"]),
+  qJP("Your ideal weekend…",
+      ["Pre-planned activities","Booked times","See what happens","Free & flexible"],
+      ["J","J","P","P"],
+      "عطلتك المثالية…",
+      ["أنشطة مخططة مسبقًا","مواعيد محجوزة","نشوف ما يحدث","حرّة ومرنة"]),
+  qJP("Emails & messages…",
+      ["Inbox zero","Organized labels","Unread piles","Answer when inspired"],
+      ["J","J","P","P"],
+      "البريد والرسائل…",
+      ["صفر غير مقروء","تصنيفات منظمة","تراكم غير المقروء","تردّ حين تشعر بالرغبة"]),
+  qJP("Projects usually finish…",
+      ["Ahead of time","Exactly on time","Extend a bit","Evolve as needed"],
+      ["J","J","P","P"],
+      "المشاريع عادة تنتهي…",
+      ["قبل الموعد","بالضبط في الموعد","تمتد قليلاً","تتطور حسب الحاجة"]),
 ];
+
+/******** Helpers to build question objects with bilingual options ********/
+function qEI(enQ, enOpts, vals, arQ, arOpts){return makeQ("EI",enQ,enOpts,vals,arQ,arOpts)}
+function qNS(enQ, enOpts, vals, arQ, arOpts){return makeQ("NS",enQ,enOpts,vals,arQ,arOpts)}
+function qTF(enQ, enOpts, vals, arQ, arOpts){return makeQ("TF",enQ,enOpts,vals,arQ,arOpts)}
+function qJP(enQ, enOpts, vals, arQ, arOpts){return makeQ("JP",enQ,enOpts,vals,arQ,arOpts)}
+function makeQ(dim,enQ,enOpts,vals,arQ,arOpts){
+  return {
+    dimension: dim,
+    text: {en:enQ, ar:arQ},
+    options: enOpts.map((txt,i)=>({
+      text: {en: txt, ar: arOpts[i]},
+      value: vals[i]
+    }))
+  }
+}
 
 /**********************
  * Results dictionary
  **********************/
 const mbtiResults = {
   INTJ:{name:{en:"INTJ – The Architect",ar:"INTJ – العقل المدبر"},
-    desc:{en:"Strategic, independent thinkers who love mastering systems. Long-term planners who value competence.",
-         ar:"مفكرون استراتيجيون مستقلون يحبون إتقان الأنظمة. يخططون على المدى البعيد ويقدّرون الكفاءة."}},
+    desc:{en:"Strategic, independent thinkers who master systems and plan long-term.",
+         ar:"مفكرون استراتيجيون مستقلون يتقنون الأنظمة ويخططون على المدى البعيد."}},
   INTP:{name:{en:"INTP – The Logician",ar:"INTP – المفكر"},
-    desc:{en:"Innovative problem-solvers driven by curiosity and logic. Enjoy exploring theories and models.",
-         ar:"حلّالون مبتكرون للمشكلات بدافع الفضول والمنطق. يستمتعون باستكشاف النظريات والنماذج."}},
+    desc:{en:"Curious problem-solvers who explore theories and models.",
+         ar:"حلّالون فضوليون يستكشفون النظريات والنماذج."}},
   ENTJ:{name:{en:"ENTJ – The Commander",ar:"ENTJ – القائد"},
-    desc:{en:"Bold, decisive leaders who organize people and resources toward a vision.",
-         ar:"قادة حاسمون وجريئون ينظمون الأفراد والموارد باتجاه رؤية واضحة."}},
+    desc:{en:"Bold, decisive organizers who drive execution.",
+         ar:"منظمون جريئون وحاسمون يدفعون نحو التنفيذ."}},
   ENTP:{name:{en:"ENTP – The Debater",ar:"ENTP – المبتكر"},
-    desc:{en:"Quick-witted idea generators who enjoy challenges and debate.",
-         ar:"سريعو البديهة يولدون الأفكار ويستمتعون بالتحديات والجدال البنّاء."}},
+    desc:{en:"Quick-witted idea generators who love challenges.",
+         ar:"سريعو البديهة يولدون الأفكار ويحبون التحدي."}},
   INFJ:{name:{en:"INFJ – The Advocate",ar:"INFJ – المستشار"},
-    desc:{en:"Insightful idealists focused on meaning, purpose, and helping others grow.",
-         ar:"مثاليون ذوو بصيرة يركزون على المعنى والغاية ومساعدة الآخرين على التطور."}},
+    desc:{en:"Insightful idealists focused on meaning and growth.",
+         ar:"مثاليون ذوو بصيرة يركزون على المعنى والنمو."}},
   INFP:{name:{en:"INFP – The Mediator",ar:"INFP – المعالج"},
-    desc:{en:"Empathetic, value-driven creatives seeking harmony and authenticity.",
-         ar:"مبدعون مدفوعون بالقيم، متعاطفون ويبحثون عن الانسجام والأصالة."}},
+    desc:{en:"Value-driven creatives seeking harmony and authenticity.",
+         ar:"مبدعون تحركهم القيم ويبحثون عن الانسجام والأصالة."}},
   ENFJ:{name:{en:"ENFJ – The Protagonist",ar:"ENFJ – المعلم"},
-    desc:{en:"Charismatic organizers who inspire, coach, and unite people.",
-         ar:"منظمون كاريزميون يلهمون ويؤطرون ويجمعون الناس."}},
+    desc:{en:"Charismatic motivators who unite people.",
+         ar:"محفزون كاريزميون يجمعون الناس."}},
   ENFP:{name:{en:"ENFP – The Campaigner",ar:"ENFP – البطل"},
-    desc:{en:"Energetic connectors who explore possibilities and motivate others.",
-         ar:"حيويون يوسّعون الاحتمالات ويحفزون الآخرين."}},
+    desc:{en:"Energetic connectors who explore possibilities.",
+         ar:"حيويون يوسّعون الاحتمالات ويربطون الناس."}},
   ISTJ:{name:{en:"ISTJ – The Logistician",ar:"ISTJ – اللوجستي"},
-    desc:{en:"Dependable realists who value duty, details, and consistency.",
-         ar:"واقعيون يمكن الاعتماد عليهم، يقدّرون الواجب والتفاصيل والثبات."}},
+    desc:{en:"Dependable realists who value duty and detail.",
+         ar:"واقعيون يمكن الاعتماد عليهم، يقدّرون الواجب والتفاصيل."}},
   ISFJ:{name:{en:"ISFJ – The Defender",ar:"ISFJ – المدافع"},
-    desc:{en:"Caring protectors who create stability and support for others.",
-         ar:"حماة ودودون يخلقون الاستقرار ويدعمون من حولهم."}},
+    desc:{en:"Caring protectors who create stability for others.",
+         ar:"حماة ودودون يخلقون الاستقرار."}},
   ESTJ:{name:{en:"ESTJ – The Executive",ar:"ESTJ – المنفذ"},
-    desc:{en:"Efficient organizers who set standards and drive execution.",
-         ar:"منظمون فعّالون يضعون المعايير ويدفعون نحو التنفيذ."}},
-  ESFJ:{name:{en:"ESFJ – The Consul",ar:"ESFJ – المقدم"},
-    desc:{en:"Warm, sociable helpers who value harmony and tradition.",
-         ar:"اجتماعيون دافئون يقدّرون الانسجام والتقاليد."}},
+    desc:{en:"Efficient organizers who set and enforce standards.",
+         ar:"منظمون فعّالون يضعون المعايير ويطبّقونها."}},
+  ESFJ:{name:{en:"ESFJ – The Consul",ar:"ESFJ – المقدّم"},
+    desc:{en:"Warm, sociable helpers who value tradition.",
+         ar:"دافئون اجتماعيون يقدّرون التقاليد."}},
   ISTP:{name:{en:"ISTP – The Virtuoso",ar:"ISTP – الحرفي"},
-    desc:{en:"Hands-on investigators who learn by doing and love tools.",
-         ar:"مستكشفون عمليّون يتعلمون بالتجربة ويحبون الأدوات."}},
+    desc:{en:"Hands-on investigators who learn by doing.",
+         ar:"مستكشفون عمليّون يتعلمون بالفعل."}},
   ISFP:{name:{en:"ISFP – The Adventurer",ar:"ISFP – المغامر"},
-    desc:{en:"Gentle artists who value experience, freedom, and aesthetics.",
-         ar:"فنانون لطفاء يقدّرون التجربة والحرية والجماليات."}},
+    desc:{en:"Gentle artists who value experience and freedom.",
+         ar:"فنانون لطفاء يقدّرون التجربة والحرية."}},
   ESTP:{name:{en:"ESTP – The Entrepreneur",ar:"ESTP – رائد الأعمال"},
-    desc:{en:"Action-oriented realists who thrive in fast-moving situations.",
+    desc:{en:"Action-oriented realists thriving in fast situations.",
          ar:"واقعيون عمليّون يزدهرون في المواقف السريعة."}},
   ESFP:{name:{en:"ESFP – The Entertainer",ar:"ESFP – الفنان"},
-    desc:{en:"Spontaneous, cheerful doers who bring energy everywhere.",
-         ar:"عفويون مرحون ينشرون الحماس أينما كانوا."}}
+    desc:{en:"Spontaneous, cheerful doers who energize spaces.",
+         ar:"عفويون مرحون يبعثون الطاقة."}}
 };
 
 /****************
  * State & DOM
  ****************/
-let currentLang = localStorage.getItem('lang') || 'en';
+let currentLang = localStorage.getItem('lang') || 'en'; // default English
 let currentQuestionIndex = 0;
 let answers = [];
 
@@ -189,7 +308,6 @@ const resultContainer = document.getElementById('result-container');
 
 const langArBtn = document.getElementById('lang-ar');
 const langEnBtn = document.getElementById('lang-en');
-const themeToggleBtn = document.getElementById('theme-toggle');
 
 const startTitleEl = document.getElementById('start-title');
 const startDescEl = document.getElementById('start-description');
@@ -211,6 +329,7 @@ const shareWhatsApp = document.getElementById('share-whatsapp');
  * Theme (persisted)
  ***********************/
 let isDarkMode = (localStorage.getItem('theme') === 'dark');
+const themeToggleBtn = document.getElementById('theme-toggle');
 function applyTheme() {
   document.body.classList.toggle('dark-mode', isDarkMode);
   app.classList.toggle('dark-mode', isDarkMode);
@@ -241,9 +360,9 @@ function updateStaticTexts() {
   document.getElementById('loading-text').textContent = t.loading;
 
   const total = questions.length;
-  progressLabel.textContent = t.progressLabel(currentQuestionIndex+1, total);
+  const current = Math.min(currentQuestionIndex+1, total);
+  progressLabel.textContent = t.progressLabel(current, total);
 
-  // If result visible, update labels
   if (!resultContainer.classList.contains('hidden')) {
     resultTitleEl.textContent = `${t.yourType} ${resultTitleEl.getAttribute('data-type')}`;
     resultSubtitleEl.textContent = t.resultSubtitle;
@@ -253,7 +372,6 @@ function setLanguage(lang){
   currentLang = lang;
   localStorage.setItem('lang', lang);
   updateStaticTexts();
-  // update current view
   if (!questionContainer.classList.contains('hidden')) showQuestion();
   if (!resultContainer.classList.contains('hidden')) showResult(false);
 }
@@ -264,9 +382,9 @@ function setLanguage(lang){
 function startTest(){
   currentQuestionIndex = 0;
   answers = [];
-  startScreen.classList.add('hidden');
   resultContainer.classList.add('hidden');
   loadingScreen.classList.add('hidden');
+  startScreen.classList.add('hidden');
   questionContainer.classList.remove('hidden');
   showQuestion();
 }
@@ -277,10 +395,10 @@ function showQuestion(){
   const current = currentQuestionIndex + 1;
 
   questionNumberEl.textContent = t.questionCounter(current, total);
+
   const q = questions[currentQuestionIndex];
   questionTextEl.textContent = q.text[currentLang];
 
-  // options
   optionsContainer.innerHTML = '';
   q.options.forEach(opt=>{
     const btn = document.createElement('button');
@@ -295,11 +413,9 @@ function showQuestion(){
     optionsContainer.appendChild(btn);
   });
 
-  // progress
   progressLabel.textContent = t.progressLabel(current, total);
   progressFill.style.width = `${Math.round((current-1)/total*100)}%`;
 
-  // next button label
   nextBtn.textContent = (currentQuestionIndex === total-1) ? t.getResult : t.nextButton;
 }
 
@@ -313,10 +429,9 @@ function nextQuestion(){
   if (currentQuestionIndex < questions.length) {
     showQuestion();
   } else {
-    // show loading then result
     questionContainer.classList.add('hidden');
     loadingScreen.classList.remove('hidden');
-    setTimeout(()=> showResult(true), 900); // شاشة تحميل قصيرة
+    setTimeout(()=> showResult(true), 900);
   }
 }
 
@@ -328,54 +443,4 @@ function showResult(fromLoading){
   typeLetters.push(counts.E >= counts.I ? 'E':'I');
   typeLetters.push(counts.N >= counts.S ? 'N':'S');
   typeLetters.push(counts.T >= counts.F ? 'T':'F');
-  typeLetters.push(counts.J >= counts.P ? 'J':'P');
-  const type = typeLetters.join('');
-
-  const t = translations[currentLang];
-  const info = mbtiResults[type];
-
-  // title & description
-  resultTitleEl.setAttribute('data-type', type);
-  resultTitleEl.textContent = `${t.yourType} ${type}`;
-  resultSubtitleEl.textContent = t.resultSubtitle;
-
-  // detailed block
-  const name = info?.name?.[currentLang] || type;
-  const desc = info?.desc?.[currentLang] || '';
-  resultDescriptionEl.innerHTML = `
-    <p class="badge">${name}</p>
-    <p>${desc}</p>
-    <p>${currentLang==='ar'
-        ? 'تذكّر أن MBTI أداة استكشافية وليست حكمًا نهائيًا على الشخصية.'
-        : 'Remember: MBTI is a reflective tool, not a definitive label.'}
-    </p>
-  `;
-
-  // share links
-  const shareMsg = encodeURIComponent(t.shareText(type));
-  const url = encodeURIComponent(location.href);
-  shareTwitter.href = `https://twitter.com/intent/tweet?text=${shareMsg}&url=${url}`;
-  shareWhatsApp.href = `https://wa.me/?text=${shareMsg}%20${url}`;
-
-  if (fromLoading) {
-    loadingScreen.classList.add('hidden');
-    resultContainer.classList.remove('hidden');
-    startScreen.classList.remove('hidden'); // لإظهار زر إعادة
-  } else {
-    // just re-render texts
-  }
-
-  // reset for next run
-  currentQuestionIndex = 0;
-  answers = [];
-  progressFill.style.width = '0%';
-}
-
-/****************
- * Init
- ****************/
-(function init(){
-  document.getElementById('year').textContent = new Date().getFullYear();
-  applyTheme();
-  updateStaticTexts();
-})();
+  typeLetters.push(counts.J 
