@@ -112,3 +112,61 @@ body {
     font-size: 16px;
     margin-top: 10px;
 }
+/* تأكد أن النص أبيض تمامًا عند تفعيل الزر */
+.lang-button.active {
+    background-color: #007bff;
+    color: #fff !important;
+}
+
+/* زر تبديل الثيم */
+.theme-button {
+    background-color: #eaeaea;
+    border: none;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-left: 10px;
+}
+.theme-button:hover {
+    background-color: #d5d5d5;
+}
+
+/* أنماط الوضع الداكن */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+#app.dark-mode {
+    background-color: #1f1f1f;
+    box-shadow: none;
+}
+.lang-button.dark-mode {
+    background-color: #333;
+    color: #e0e0e0;
+}
+.lang-button.dark-mode.active {
+    background-color: #0062cc;
+    color: #ffffff !important;
+}
+.theme-button.dark-mode {
+    background-color: #333;
+    color: #e0e0e0;
+}
+.primary-button.dark-mode {
+    background-color: #0062cc;
+    color: #fff;
+}
+.option-button.dark-mode {
+    background-color: #2c2c2c;
+    border-color: #555;
+    color: #e0e0e0;
+}
+.option-button.dark-mode:hover {
+    background-color: #3a3a3a;
+}
+.option-button.dark-mode.selected {
+    border-color: #3390ff;
+    background-color: #2a4d72;
+}
